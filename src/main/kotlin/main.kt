@@ -1,5 +1,4 @@
 data class Post(
-    val id: Int,
     val owner_id: Int,
     val date: Int,
     val text: String = " ",
@@ -34,6 +33,7 @@ object WallService{
     private var id: Int = -1;
     fun set(post: Post): Post {
         id += 1
+        posts += post
         posts[id] = post
         return posts.last()
     }
@@ -42,13 +42,14 @@ object WallService{
     }
 }
 fun main(){
-    val post = Post(1, 1, 2022, "Hi, Kotlin", 2, false, Comments(),
+    val post = Post( 1, 2022, "Hi, Kotlin", 2, false, Comments(),
         "Zukh", Likes(), Views(), "post", 3, can_pin = true, can_delete = false, false, true,
         is_favorite = true
     )
-    val post2 = Post(2, 2, 2022 , replay_owner_id = 1, friends_only = false, comments = Comments(),
+    val post2 = Post(2, 2022 , replay_owner_id = 1, friends_only = false, comments = Comments(),
         likes = Likes(), views = Views(), post_type = "repost", signer_id = 1)
     WallService.set(post)
     WallService.set(post2)
     println(WallService.get(0))
+    println(WallService.get(1))
 }
