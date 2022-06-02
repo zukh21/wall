@@ -31,12 +31,14 @@ data class Views(
 )
 object WallService{
     private var posts = emptyArray<Post>()
-    fun set(index: Int, post: Post){
-
-    }
-    fun add(post: Post): Post {
-        posts += post
+    private var id: Int = -1;
+    fun set(post: Post): Post {
+        id += 1
+        posts[id] = post
         return posts.last()
+    }
+    fun get(id: Int): Post {
+        return posts[id]
     }
 }
 fun main(){
@@ -46,5 +48,7 @@ fun main(){
     )
     val post2 = Post(2, 2, 2022 , replay_owner_id = 1, friends_only = false, comments = Comments(),
         likes = Likes(), views = Views(), post_type = "repost", signer_id = 1)
-    println("${WallService.add(post)}\n${WallService.add(post2)}")
+    WallService.set(post)
+    WallService.set(post2)
+    println(WallService.get(0))
 }
