@@ -1,4 +1,5 @@
 data class Post(
+    var id: Int = 0,
     val owner_id: Int,
     val date: Int,
     val text: String = " ",
@@ -30,26 +31,42 @@ data class Views(
 )
 object WallService{
     private var posts = emptyArray<Post>()
-    private var id: Int = -1;
-    fun set(post: Post): Post {
-        id += 1
+    private var id: Int = 0;
+    fun add(post: Post): Post {
         posts += post
         posts[id] = post
+        while (post.id < posts.size){
+            post.id += 1
+
+        }
+        id += 1
         return posts.last()
+    }
+    fun update(index: Int, post: Post): Boolean{
+
+        return posts.indexOf(post) == index
     }
     fun get(id: Int): Post {
         return posts[id]
     }
 }
 fun main(){
-    val post = Post( 1, 2022, "Hi, Kotlin", 2, false, Comments(),
-        "Zukh", Likes(), Views(), "post", 3, can_pin = true, can_delete = false, false, true,
-        is_favorite = true
+    val post = Post( owner_id = 1, date = 2022, text = "Hi, Kotlin", friends_only = false, post_type = "post",
+        replay_owner_id = 2, signer_id = 2
     )
-    val post2 = Post(2, 2022 , replay_owner_id = 1, friends_only = false, comments = Comments(),
-        likes = Likes(), views = Views(), post_type = "repost", signer_id = 1)
-    WallService.set(post)
-    WallService.set(post2)
+    val post2 = Post( owner_id = 1, date = 2022, text = "Kotlin", friends_only = false, post_type = "post",
+        replay_owner_id = 2, signer_id = 2
+    )
+    val post3 = Post( owner_id = 1, date = 2022, text = "3Kotlin", friends_only = false, post_type = "post",
+        replay_owner_id = 2, signer_id = 2
+    )
+    val uPost = Post(id = 1, owner_id = 1, date = 2022, text = "Hello, Kotlin", friends_only = false, post_type = "post",
+        replay_owner_id = 2, signer_id = 2
+    )
+
+    WallService.add(post)
+    WallService.add(post2)
+    println(WallService.update(0, post))
     println(WallService.get(0))
-    println(WallService.get(1))
+
 }
