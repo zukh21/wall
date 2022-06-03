@@ -34,39 +34,28 @@ object WallService{
     private var id: Int = 0;
     fun add(post: Post): Post {
         posts += post
-        posts[id] = post
-        while (post.id < posts.size){
-            post.id += 1
-
-        }
-        id += 1
+        posts += post.copy(id = ++id)
         return posts.last()
     }
-    fun update(index: Int, post: Post): Boolean{
-
-        return posts.indexOf(post) == index
+    fun update(post: Post): Boolean{
+        for ((index, newPost) in posts.withIndex()){
+            if (newPost.id == post.id){
+                posts[index] = post.copy()
+                return true
+            }
+        }
+        return false
     }
     fun get(id: Int): Post {
         return posts[id]
     }
 }
 fun main(){
-    val post = Post( owner_id = 1, date = 2022, text = "Hi, Kotlin", friends_only = false, post_type = "post",
-        replay_owner_id = 2, signer_id = 2
-    )
-    val post2 = Post( owner_id = 1, date = 2022, text = "Kotlin", friends_only = false, post_type = "post",
-        replay_owner_id = 2, signer_id = 2
-    )
-    val post3 = Post( owner_id = 1, date = 2022, text = "3Kotlin", friends_only = false, post_type = "post",
-        replay_owner_id = 2, signer_id = 2
-    )
-    val uPost = Post(id = 1, owner_id = 1, date = 2022, text = "Hello, Kotlin", friends_only = false, post_type = "post",
+    val post = Post( owner_id = 1, date = 2022, text = "Hi Kotlin", friends_only = false, post_type = "post",
         replay_owner_id = 2, signer_id = 2
     )
 
     WallService.add(post)
-    WallService.add(post2)
-    println(WallService.update(0, post))
-    println(WallService.get(0))
-
+    println(WallService.update(post))
+    println(WallService.get(1))
 }
