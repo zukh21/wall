@@ -32,9 +32,6 @@ data class Views(
 object WallService{
     private var posts = emptyArray<Post>()
     private var id: Int = 0;
-    fun aS(v: Int, d: Int){
-        val s = v + d
-    }
     fun add(post: Post): Post {
         posts += post
         posts += post.copy(id = ++id)
