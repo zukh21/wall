@@ -7,11 +7,11 @@ data class Post(
     val friends_only: Boolean,
     val comments: Comments = Comments(),
     val copyright: String = "zim",
-    val likes: Likes = Likes(),
-    val views: Views = Views(),
+    val likes: Likes?,
+    val views: Views?,
     val post_type: String,
     val signer_id: Int,
-    val can_pin: Boolean = true,
+    val can_pin: Boolean = false,
     val can_delete: Boolean = true,
     val can_edit: Boolean = true,
     val marked_as_ads: Boolean = false,
@@ -52,7 +52,7 @@ object WallService{
 }
 fun main(){
     val post = Post( owner_id = 1, date = 2022, text = "Hi Kotlin", friends_only = false, post_type = "post",
-        replay_owner_id = 2, signer_id = 2
+        replay_owner_id = 2, signer_id = 2, views = null, likes = Likes()
     )
 
     WallService.add(post)
