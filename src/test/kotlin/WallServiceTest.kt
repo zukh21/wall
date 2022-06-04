@@ -41,4 +41,13 @@ class WallServiceTest {
         val result = addPost3.id != 0
         assertTrue(result)
     }
+    @Test()
+    fun shouldThrow() {
+        val comment = Comments(count = 1, text = "New comment")
+       assertThrows(PostNotFoundException::class.java){
+           WallService.createComments(1, comment)
+       }
+        val result = comment.count != 0
+        assertTrue(result)
+    }
 }
