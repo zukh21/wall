@@ -26,14 +26,19 @@ data class Likes(
 )
 data class Comments(
     var count: Int = 0,
-    var can_post: Boolean = true, )
+    var can_post: Boolean = true,
+    var text: String = ""
+    )
 
 data class Views(
     val count: Int = 0
 )
 
+class PostNotFoundException(message: String): RuntimeException(message)
+
 object WallService{
     private var posts = emptyArray<Post>()
+    private var comments = emptyArray<Comments>()
     private var id: Int = 0;
     fun add(post: Post): Post {
         posts += post
@@ -52,6 +57,15 @@ object WallService{
     fun get(id: Int): Post {
         return posts[id]
     }
+    fun createComments(postId: Int, comment: Comments): Comments{
+        for (post in posts){
+            if (postId == post.id){
+                comments += comment
+                return comments.last()
+            }
+        }
+        throw PostNotFoundException("Post not found with id: $postId")
+    }
 }
 fun main(){
     val video = Video( title = "Netology", duration = 120)
@@ -59,8 +73,16 @@ fun main(){
     val post = Post( owner_id = 1, date = 2022, text = "Hi Kotlin", friends_only = false, post_type = "post",
         replay_owner_id = 2, signer_id = 2, views = null, likes = Likes(), video = video, audio = audio
     )
+    val post2 = Post( owner_id = 1, date = 2022, text = "Hi Kotlin", friends_only = false, post_type = "post",
+        replay_owner_id = 2, signer_id = 2, views = null, likes = Likes(), video = video, audio = audio
+    )
 
+
+    val comment = Comments(count = 1, text = "New comment")
     WallService.add(post)
+    WallService.add(post2)
     println(WallService.update(post))
+    println(WallService.update(post2))
     println(WallService.get(1))
+    println(WallService.createComments(2, comment))
 }
