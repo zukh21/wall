@@ -16,6 +16,8 @@ data class Post(
     val can_edit: Boolean = true,
     val marked_as_ads: Boolean = false,
     val is_favorite: Boolean = false,
+    val video: Video,
+    val audio: Audio,
 )
 data class Likes(
     val count: Int = 0,
@@ -29,6 +31,7 @@ data class Comments(
 data class Views(
     val count: Int = 0
 )
+
 object WallService{
     private var posts = emptyArray<Post>()
     private var id: Int = 0;
@@ -51,8 +54,10 @@ object WallService{
     }
 }
 fun main(){
+    val video = Video( title = "Netology", duration = 120)
+    val audio = Audio(artist = "Bob", title = "My village", duration = 120)
     val post = Post( owner_id = 1, date = 2022, text = "Hi Kotlin", friends_only = false, post_type = "post",
-        replay_owner_id = 2, signer_id = 2, views = null, likes = Likes()
+        replay_owner_id = 2, signer_id = 2, views = null, likes = Likes(), video = video, audio = audio
     )
 
     WallService.add(post)
