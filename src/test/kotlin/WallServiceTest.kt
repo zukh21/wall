@@ -50,4 +50,30 @@ class WallServiceTest {
         val result = comment.count != 0
         assertTrue(result)
     }
+
+}
+
+class NotesTest: Notes() {
+    private val service = Notes.WallService
+    private val note = Notes.notesFields(text = "Check", date = 2001)
+    @Test
+    fun addNote(){
+        service.add(note)
+        val result = note.id > 0
+        assertTrue(result)
+    }
+    @Test
+    fun createComment(){
+        service.createComment(1, note, Comments(text = "new Check comment"))
+        val result = WallService.getComments().size > 0
+        assertFalse(result)
+        assertThrows(NoteNotFoundException::class.java){
+            service.createComment(1, note, Comments(text = "new Check comment2"))
+        }
+    }
+
+
+
+
+
 }
