@@ -18,8 +18,7 @@ data class Post(
     val can_edit: Boolean = true,
     val marked_as_ads: Boolean = false,
     val is_favorite: Boolean = false,
-    val video: Video,
-    val audio: Audio,
+    val attachments: Array<Attachment> = arrayOf()
 )
 data class Likes(
     val count: Int = 0,
@@ -72,6 +71,19 @@ object WallService{
         throw PostNotFoundException("Post not found with id: $postId")
     }
 }
+fun main(){
+    val video = Video( title = "Netology")
+    val audio = Audio(artist = "Bob", title = "My village", duration = 120)
+    val a1 = AudioAttachment("audio", audio)
+    val v1 = VideoAttachment("video", video)
+
+
+    val post = Post( owner_id = 1, date = 2022, text = "Hi Kotlin", friends_only = false, post_type = "post",
+        replay_owner_id = 2, signer_id = 2, views = null, likes = Likes(), attachments = arrayOf(a1,v1)
+    )
+    WallService.add(post)
+//    println(WallService.update(post))
+    println(WallService.get(1))
 
 open class Notes{
 
@@ -166,55 +178,8 @@ open class Notes{
             throw AllErrorException("Restore comment has note been success")
         }
 
-//        End
     }
 
 
 }
 
-fun main(){
-//    val service = Notes.WallService // Сервис для (Заметка)
-//    val comment = Comments(count = 1, text = "New comment")
-//    val note = Notes.notesFields(text = "Zukhridin notes", comments = comment, date = 2022)
-//    val note2 = Notes.notesFields(text = "Ilyo", comments = Comments(text = "it is comment"), date = 2021)
-//    service.add(note)
-//    println(service.add(note2))
-//    val CommentForNote2 = service.createComment(2, note2, comment = Comments(text = "new comment for note2"))
-//    println(service.edit(1, Notes.notesFields(text = "Muza", comments = Comments(text = "edit note"), date = 2021))) // id и дата не поменяется
-//    println(service.editComment(note2, CommentForNote2, newComments = Comments(text = "It is updated comment")))
-//
-////    println(service.delete(note))
-//    println(service.createComment(1, note, comment))
-////    println(service.deleteComment(note, comment))
-//    println(service.get())
-//    println(service.getById(1))
-//    println(service.getComments())
-//    println(service.deleteComment(note, comment))
-//    println(service.getComments())
-//    println(service.restoreComment(comment))
-//    println(service.getComments())
-
-
-
-
-
-
-
-//    val video = Video( title = "Netology", duration = 120)
-//    val audio = Audio(artist = "Bob", title = "My village", duration = 120)
-//    val post = Post( owner_id = 1, date = 2022, text = "Hi Kotlin", friends_only = false, post_type = "post",
-//        replay_owner_id = 2, signer_id = 2, views = null, likes = Likes(), video = video, audio = audio
-//    )
-//    val post2 = Post( owner_id = 1, date = 2022, text = "Hi Kotlin", friends_only = false, post_type = "post",
-//        replay_owner_id = 2, signer_id = 2, views = null, likes = Likes(), video = video, audio = audio
-//    )
-//
-//
-//    val comment = Comments(count = 1, text = "New comment")
-//    WallService.add(post)
-//    WallService.add(post2)
-//    println(WallService.update(post))
-//    println(WallService.update(post2))
-//    println(WallService.get(1))
-//    println(WallService.createComments(2, comment))
-}
